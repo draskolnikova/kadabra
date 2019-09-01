@@ -1,0 +1,14 @@
+#!/bin/bash
+
+config_files=/etc/sysconfig/network-scripts/ifcfg-eth0
+interface_zero=`ifconfig eth0 | grep ether | awk '{print $2}'
+interface_conf=`grep $interface_zero $config_files`
+
+if [ "$interface_zero" != "$interface_conf" ]; then
+	# Replacing HWADDR in config_files
+	sed -i '/^HWADDR/c HWADDR=${interface_zero}' $config_files
+	# Replacing Hostname Address DHCP
+	sed -i 's/35520/$1/g' /etc/dhcp/dhcpd.conf
+	systemctl reboot
+else
+	exit 0
