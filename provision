@@ -1,7 +1,7 @@
 #!/bin/bash
 
 config_files=/etc/sysconfig/network-scripts/ifcfg-eth0
-interface_zero=`ifconfig eth0 | grep ether | awk '{print $2}'
+interface_zero=`ifconfig eth0 | grep ether | awk '{print $2}'`
 interface_conf=`grep $interface_zero $config_files`
 
 if [ "$interface_zero" != "$interface_conf" ]; then
